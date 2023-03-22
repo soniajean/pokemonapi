@@ -15,5 +15,8 @@ python-dotenv==1.0.0
 SQLAlchemy==2.0.7
 typing_extensions==4.5.0
 Werkzeug==2.2.3
+<<<<<<< HEAD
 wtf==0.1
+=======
+>>>>>>> 931548056e8b0465b13bfc4ef7f04fed0ba2fdfa
 WTForms==3.0.1

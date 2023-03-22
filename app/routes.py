@@ -2,7 +2,10 @@
 from app import app
 
 from flask import render_template, request, url_for, redirect
+<<<<<<< HEAD
 
+=======
+>>>>>>> 931548056e8b0465b13bfc4ef7f04fed0ba2fdfa
 from .forms import SignUpForm
 from .models import User
 
@@ -32,7 +35,11 @@ def homePage():
 def loginPage():
     return render_template('login.html')
 
+<<<<<<< HEAD
 @app.route('/register', methods=["GET", "POST"])
+=======
+@app.route('/register', methods=['GET', 'POST'])
+>>>>>>> 931548056e8b0465b13bfc4ef7f04fed0ba2fdfa
 def registerPage():
     form = SignUpForm()
     if request.method == 'POST':
@@ -42,8 +49,16 @@ def registerPage():
             password = form.password.data
             print(username, email, password)
 
+<<<<<<< HEAD
             user= User(username, email, password)
             user.saveUser()
             return redirect(url_for('loginPage'))
 
+=======
+            user = User(username, email, password)            
+            user.saveUser()
+            return redirect(url_for('loginPage'))
+
+
+>>>>>>> 931548056e8b0465b13bfc4ef7f04fed0ba2fdfa
     return render_template('register.html', form=form)
