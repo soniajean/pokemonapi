@@ -2,12 +2,28 @@
 from app import app
 
 from flask import render_template, request, url_for, redirect
-<<<<<<< HEAD
 
-=======
->>>>>>> 931548056e8b0465b13bfc4ef7f04fed0ba2fdfa
 from .forms import SignUpForm
 from .models import User
+from .forms import PokemonForm
+import requests, json
+
+def getPokemon(pokemon):
+    url = f'https://pokeapi.co/api/v2/pokemon/{pokemon}'
+    response = requests.get(url)
+    if response.ok:
+        my_dict = response.json()
+        pokemon_dict = {}
+        pokemon_dict["Name"] = my_dict["name"]
+        pokemon_dict["Ability"] = my_dict["abilities"][0]["ability"]["name"]
+        pokemon_dict["Base XP"] = my_dict["base_experience"]
+        pokemon_dict["Front Shiny"] = my_dict["sprites"]["front_shiny"]
+        pokemon_dict["Base ATK"] = my_dict["stats"][1]["base_stat"]
+        pokemon_dict["Base HP"] = my_dict["stats"][0]["base_stat"]
+        pokemon_dict["Base DEF"] = my_dict["stats"][2]["base_stat"]
+
+        
+        return pokemon_dict
 
 @app.route('/')
 def homePage():
@@ -35,11 +51,8 @@ def homePage():
 def loginPage():
     return render_template('login.html')
 
-<<<<<<< HEAD
+
 @app.route('/register', methods=["GET", "POST"])
-=======
-@app.route('/register', methods=['GET', 'POST'])
->>>>>>> 931548056e8b0465b13bfc4ef7f04fed0ba2fdfa
 def registerPage():
     form = SignUpForm()
     if request.method == 'POST':
@@ -49,16 +62,36 @@ def registerPage():
             password = form.password.data
             print(username, email, password)
 
-<<<<<<< HEAD
-            user= User(username, email, password)
-            user.saveUser()
-            return redirect(url_for('loginPage'))
 
-=======
             user = User(username, email, password)            
             user.saveUser()
             return redirect(url_for('loginPage'))
 
-
->>>>>>> 931548056e8b0465b13bfc4ef7f04fed0ba2fdfa
     return render_template('register.html', form=form)
+
+@app.route('/pokemon_search', methods=["GET", "POST"])
+def findpokemon():
+    form = PokemonForm()
+    if request.method == 'POST':
+         if form.validate():  
+            data = getPokemon(pokemon)    
+            pokemon = form.pokemon.data
+            print(pokemon)
+           
+    return render_template('pokemon_search.html', form=form)
+    
+    findpokemon('pikachu')
+
+@app.route('/pokemon_display', methods=["GET", "POST"])
+def displaypokemon():
+    form = PokemonForm()
+    if request.method == 'POST':
+         if form.validate():  
+            data = getPokemon(pokemon)    
+            pokemon = form.pokemon.data
+            print(pokemon)
+           
+    
+    return render_template('pokemon_display.html', form=form)
+   
+    findpokemon('pikachu')

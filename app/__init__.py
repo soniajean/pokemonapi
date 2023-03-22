@@ -17,3 +17,4 @@ migrate = Migrate(app, db)
 app.register_blueprint(auth)
 
 from . import routes
+
