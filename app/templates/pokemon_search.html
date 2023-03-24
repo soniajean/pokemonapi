@@ -21,8 +21,33 @@
 
     </div>
 </div>
+{% if pokedict  %}
+<div class="container">
 
+    <div class="row justify-content-center">
+        <div class="card" style="width: 18rem;">
+            <img src="{{pokedict['Front Shiny'] }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text"></p>My Ability is {{ pokedict['Ability']}}</p>
+              <p class="card-text"></p>My Base ATK is {{ pokedict['Base ATK']}}</p>
+              <p class="card-text"></p>My Base HP is {{ pokedict['Base HP']}}</p>
+              <p class="card-text"></p>My Base DEF is {{ pokedict['Base DEF']}}</p>
+              
+            
+            
+            
+            
+            
+            
+            
+            </div>
+          </div>
+            </div>
+          </div>
 
+    </div>
+</div>
 
+{% endif %}
 
 {% endblock %}
