@@ -18,12 +18,14 @@ class User(db.Model, UserMixin):
 # p1 = Post()
 # p1.author
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, email, password, id):
         self.username = username
         self.email = email
         self.password = generate_password_hash(password) 
         #self.password = password   ---OLD  not hashed
+        self.id = id
 
     def saveUser(self):
         db.session.add(self)
         db.session.commit()
+        

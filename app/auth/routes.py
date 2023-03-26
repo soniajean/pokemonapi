@@ -39,28 +39,29 @@ def loginPage():
     return render_template('login.html', form=form)
 
 
-@auth.route('/register', methods=['GET', 'POST'])
-def registerPage():
+@auth.route('/signUp', methods=['GET', 'POST'])
+def signUpPage():
     form = SignUpForm()
     if request.method == 'POST':
         if form.validate():
             username = form.username.data
             email = form.email.data
             password = form.password.data
+            id = form.id.data
             if User.query.filter_by(username=username).first():
                 flash('That username already exists, please try another!', 'warning')
-                return redirect(url_for('auth.registerPage'))
+                return redirect(url_for('auth.signUpPage'))
             if User.query.filter_by(email=email).first():
                 flash('that email has been used previously, try again', 'warning')
-                return redirect(url_for('auth.registerPage'))
+                return redirect(url_for('auth.signUpPage'))
 
-            user = User(username, email, password)            
+            user = User(username, email, password, id)            
             user.saveUser()
 
 
             flash(f'Welcome to INSTURBlog {user.username}', 'success')
             return redirect(url_for('auth.loginPage'))
-    return render_template('register.html', form=form)
+    return render_template('signUp.html', form=form)
 
 @auth.route('/logout')
 def logOut():

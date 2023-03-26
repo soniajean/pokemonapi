@@ -37,8 +37,8 @@ def loginPage():
     return render_template('login.html')
 
 
-@app.route('/register', methods=["GET", "POST"])
-def registerPage():
+@app.route('/signUp', methods=["GET", "POST"])
+def signUpPage():
     form = SignUpForm()
     if request.method == 'POST':
         if form.validate():
