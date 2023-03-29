@@ -13,9 +13,12 @@ class SignUpForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators = [DataRequired()])
+    id = StringField('id', validators = [DataRequired()])
+    email = StringField('Email', validators = [DataRequired()])
     password = PasswordField('Password', validators = [DataRequired()])
     username = StringField('Username', validators = [DataRequired()])
     password = PasswordField('Password', validators = [DataRequired()])
+    confirm_password = PasswordField("Confirm", validators = [DataRequired(), EqualTo('password')])
     submit = SubmitField()
 
 class PokemonForm(FlaskForm):

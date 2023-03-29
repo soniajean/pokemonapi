@@ -5,7 +5,7 @@ from flask import render_template, request, url_for, redirect
 from flask_login import current_user, login_user, logout_user
 
 from .auth.forms import SignUpForm, LoginForm
-from .models import User
+from .models import User, Pokemon
 from .auth.forms import PokemonForm
 from .services import getPokemon
 import requests, json
@@ -13,21 +13,6 @@ import requests, json
 @app.route('/')
 def homePage():
     Pokey = [
-        {
-        'name': 'pikachu',
-        'ability': 456,
-        'spec' : 'Vim'
-        },
-        {
-        'name': 'charizard',
-        'ability' : 342,
-        'spec' : 'student relations'
-        },
-        {
-        'name' : 'Bulbasaur',
-        'ability' : 567,
-        'spec': 'none'
-        }
     ]
     fav_animal = 'Poke'
     return render_template('index.html', pokey=Pokey, f = fav_animal)
@@ -61,9 +46,24 @@ def findpokemon():
     if request.method == 'POST':
         if form.validate():  
             pokemon = form.pokemon.data
+            pokedict = Pokemon.query.filter_by(name=pokemon).first()
+            if pokedict:
+                print(f'From Query')
+                return render_template('pokemon_search.html', form=form, pokedict=pokedict)
+            
 
-            pokedict= getPokemon(pokemon)
-            print(pokedict)
+            getpoke= getPokemon(pokemon)
+            name = getpoke['name']
+            ability = getpoke['ability']
+            base_xp = getpoke['base_xp']
+            front_shiny = getpoke['front_shiny']
+            base_atk = getpoke['base_atk']
+            base_hp = getpoke['base_hp' ]
+            base_def = getpoke['base_def']
+
+            pokedict = Pokemon(name, ability, base_xp, front_shiny, base_atk, base_hp, base_def) 
+            print(f'From API call')
+            pokedict.savePokemon()            
             return render_template('pokemon_search.html', form=form, pokedict=pokedict)
 
     return render_template('pokemon_search.html', form=form)

@@ -5,15 +5,27 @@
 {% block content %}
 
 
-
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Sign Up</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="stylesheet" href="\sign_up.css" />
+</head>
+<body>
+  <main>
 <h1>Pokemon Search</h1>
 <div class="container">
 
     <div class="row justify-content-center">
         <form method="POST" class="col-4">
             {{ form.hidden_tag() }}
-
-
+    
             {{ form.pokemon(class='form-control', placeholder='Pokemon') }}
             {{ form.submit(class='btn btn-primary', placeholder='Submit') }}
 
@@ -26,28 +38,21 @@
 
     <div class="row justify-content-center">
         <div class="card" style="width: 18rem;">
-            <img src="{{pokedict['Front Shiny'] }}" class="card-img-top" alt="...">
+            <img src="{{pokedict['front_shiny'] }}" class="card-img-top" alt="...">
             <div class="card-body">
-              <p class="card-text"></p>My Ability is {{ pokedict['Ability']}}</p>
-              <p class="card-text"></p>My Base ATK is {{ pokedict['Base ATK']}}</p>
-              <p class="card-text"></p>My Base HP is {{ pokedict['Base HP']}}</p>
-              <p class="card-text"></p>My Base DEF is {{ pokedict['Base DEF']}}</p>
-              
-            
-            
-            
-            
-            
-            
-            
+              <p class="card-text"></p>My Ability is {{ pokedict['ability']}}</p>
+              <p class="card-text"></p>My Base ATK is {{ pokedict['base_atk']}}</p>
+              <p class="card-text"></p>My Base HP is {{ pokedict['base_hp']}}</p>
+              <p class="card-text"></p>My Base DEF is {{ pokedict['base_def']}}</p>
             </div>
           </div>
-            </div>
-          </div>
+        </div>
+      </div>
 
-    </div>
-</div>
 
+</main>
+</body>
+</html>
 {% endif %}
 
 {% endblock %}

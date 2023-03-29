@@ -9,9 +9,10 @@
             {{ form.hidden_tag() }}
 
             {{ form.username(class='form-control', placeholder='Username') }}
-          
+            {{ form.id(class='form-control', placeholder='id') }}
+            {{ form.email(class='form-control', placeholder='Email') }}
             {{ form.password(class='form-control', placeholder='Password') }}
-            
+            {{ form.confirm_password(class='form-control', placeholder='Confirm Password') }}
             {{ form.submit(class='btn btn-primary', placeholder='Submit') }}
         </form>
 
@@ -20,3 +21,4 @@
 
 
 {% endblock %}
+
