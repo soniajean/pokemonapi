@@ -28,9 +28,15 @@
           </ul>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('ProfilePage') }}">Edit Profile</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{{ url_for('findpokemon') }}">Find Pokemon</a>
         </li>
+
         {% if current_user.is_authenticated %}
+
+    
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ url_for('auth.logOut') }}">Logout!</a>
         </li>
