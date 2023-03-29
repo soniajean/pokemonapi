@@ -4,16 +4,6 @@ body, html {
   
 }
 
-.card{
-    position:relative;
-    top:45px; right:100px; left:120px;
-    background-color:red;
-    margin: 10 10 10 10; 
-    height: 50px;
-    width: 310px;
-    border-radius:30px;
-    padding:10%
-}
 .btn-primary{
     background-color: green;
     color: whitesmoke;
@@ -25,5 +15,16 @@ body, html {
     text-align:center;
     text-decoration: none;
     font-size: 20px;
-    border-radius:30px;
+    border-radius:50px;
+}
+.container{
+    /* background: rgb(128, 0, 0); */
+}
+
+main{
+    background-color: blueviolet;
+}
+
+h1{
+    background-color: antiquewhite;
 }
