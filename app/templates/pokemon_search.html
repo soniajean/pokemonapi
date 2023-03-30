@@ -44,6 +44,16 @@
               <p class="card-text"></p>My Base ATK is {{ pokedict['base_atk']}}</p>
               <p class="card-text"></p>My Base HP is {{ pokedict['base_hp']}}</p>
               <p class="card-text"></p>My Base DEF is {{ pokedict['base_def']}}</p>
+
+            {%if not pokedict.caught_flag and not full%}
+
+            <a class="btn btn-success" href="{{ url_for('catch', pokemon_id=pokedict.id) }}">Catch</a>
+
+            {% elif r %}
+
+            <a class="btn btn-danger" href="{{ url_for('releasepokemon', pokemon_id=pokedict.id) }}">Release</a>
+
+              {%endif%}
             </div>
           </div>
         </div>

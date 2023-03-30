@@ -19,9 +19,9 @@ def homePage():
     catch_set = set()
 
     if current_user.is_authenticated:
-        users_catched = current_user.catched.all()
-        print(users_catched)
-        for u in users_catched:
+        users_caught = current_user.caught.all()
+        print(users_caught)
+        for u in users_caught:
             catch_set.add(u.id)
         for u in users:
             if u.id in catch_set:
@@ -104,9 +104,15 @@ def findpokemon():
         if form.validate():  
             pokemon = form.pokemon.data
             pokedict = Pokemon.query.filter_by(name=pokemon).first()
-            if pokedict:
-                print(f'From Query')
-                return render_template('pokemon_search.html', form=form, pokedict=pokedict)
+            full = False
+            if current_user.caught.count() > 4:
+                full = True
+            c = current_user.caught.all()
+            if pokedict in c:
+                r = True
+                if pokedict:
+                    print(f'From Query')
+                    return render_template('pokemon_search.html', form=form, r=r, full=full, pokedict=pokedict)
             
 
             getpoke= getPokemon(pokemon)
@@ -121,54 +127,33 @@ def findpokemon():
             pokedict = Pokemon(name, ability, base_xp, front_shiny, base_atk, base_hp, base_def) 
             print(f'From API call')
             pokedict.savePokemon()            
-            return render_template('pokemon_search.html', form=form, pokedict=pokedict)
+            return render_template('pokemon_search.html', form=form, r=r, full=full, pokedict=pokedict)
 
     return render_template('pokemon_search.html', form=form)
-
-@app.route('/pokemon_release', methods=["GET", "POST"])
-def releasepokemon():
-    form = PokemonForm()
-    if request.method == 'POST':
-        if form.validate():  
-            pokemon = form.pokemon.data
-            pokedict = Pokemon.query.filter_by(name=pokemon).first()
-            if pokedict:
-                print(f'From Query')
-                return render_template('pokemon_release.html', form=form, pokedict=pokedict)
-            
-            getpoke= getPokemon(pokemon)
-            name = getpoke['name']
-            ability = getpoke['ability']
-            base_xp = getpoke['base_xp']
-            front_shiny = getpoke['front_shiny']
-            base_atk = getpoke['base_atk']
-            base_hp = getpoke['base_hp' ]
-            base_def = getpoke['base_def']
-            pokedict = Pokemon(name, ability, base_xp, front_shiny, base_atk, base_hp, base_def) 
-            print(f'From API call')
-            pokedict.savePokemon()            
-            return render_template('pokemon_search.html', form=form, pokedict=pokedict)
-    return render_template('pokemon_search.html', form=form)
-
 
 @app.route('/catch/<int:pokemon_id>')
 @login_required
 def catch(pokemon_id):
-    form = PokemonForm()
-    p = User.query.get(pokemon_id)
-    # users = User.query.limit(20)
-    catch_set = set()
+    #to do we need to make the caught flag true
 
-    users_catched = current_user.catched.all()
-    print(users_catched)
-    for u in users_catched:
-        catch_set.add(u.id)
-    for u in users_catched:
-            if u.id in catch_set:
-                u.flag = True
+    p = Pokemon.query.get(pokemon_id)
+    if not p:
+        return redirect(url_for('homePage'))
+    current_user.catch(p)
+    return redirect(url_for('homePage'))
+
+    # return render_template('pokemon_search.html', users_catched=users_catched)
+
+@app.route('/releasepokemon/<int:pokemon_id>')
+@login_required
+def releasepokemon(pokemon_id):
+    p = Pokemon.query.get(pokemon_id)
+    if not p:
+        return redirect(url_for('homePage'))
+    current_user.catch(p)
+    return redirect(url_for('homePage'))
+
 
     return render_template('pokemon_search.html', form=form, users_catched=users_catched)
-
-
 
    

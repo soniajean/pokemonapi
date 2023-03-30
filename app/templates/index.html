@@ -8,17 +8,18 @@
     <div class="card" style="width: 18rem;">
       <ul class="list-group list-group-flush">
 
-        {% for u in users %}
+        {% for p in pokemon_id %}
 
         {% if u.username == current_user.username %}
+        
 
         {% elif u.flag %}
-        <li class="list-group-item"><b>{{ u.username }}</b></li>
-        <a class="btn btn-danger" href="{{ url_for('released', pokemon_id=u.id) }}">Release</a>
+        <li class="list-group-item"><b>{{u.username}}</b></li>
+        <a class="btn btn-danger" >Release</a>
 
         {% else %}
         <li class="list-group-item"><b>{{ u.username }}</b></li>
-        <a class="btn btn-success" href="{{ url_for('catch', pokemon_id=u.id) }}">Catch</a>
+        <a class="btn btn-success" >Catch</a>
 
         {% endif %}
         {% endfor %}

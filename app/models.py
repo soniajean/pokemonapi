@@ -7,18 +7,11 @@ from werkzeug.security import generate_password_hash
 db = SQLAlchemy()
 
 
-caught = db.Table(
-    'caught',
-    db.Column('catches_by_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
-    db.Column('catched_id', db.Integer, db.ForeignKey('user.id'), nullable=False)
+catch = db.Table(
+    'catch',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
+    db.Column('pokemon_id', db.Integer, db.ForeignKey('pokemon.id'), nullable=False)
 )
-
-release = db.Table(
-    'release',
-    db.Column('release_by_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
-    db.Column('releasing_id', db.Integer, db.ForeignKey('user.id'), nullable=False)
-)
-
 
 
 class User(db.Model, UserMixin):
@@ -26,23 +19,21 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
-    catched = db.relationship('User',
+    caught = db.relationship('Pokemon',
         #this is multi-join!
         # c is short for column
-        primaryjoin = (caught.c.catches_by_id==id),
-        secondaryjoin = (caught.c.catched_id==id),
-        secondary = caught,
-        backref = db.backref('follows', lazy='dynamic'),
+        secondary = 'catch',
+        backref = 'caught',
         lazy = 'dynamic'
     )
 
 
-    def catch(self, user):
-        self.catched.append(user)
+    def catch(self, pokemon):
+        self.caught.append(pokemon)
         db.session.commit()
 
-    def released(self, user):
-        self.releasing.remove(user)
+    def released(self, pokemon):
+        self.caught.remove(pokemon)
         db.session.commit()
 
 
@@ -67,7 +58,7 @@ class Pokemon(db.Model):
     base_atk = db.Column(db.Integer, nullable=False)
     base_hp = db.Column(db.Integer, nullable=False)
     base_def = db.Column(db.Integer, nullable=False)
-    
+    caught_flag = db.Column(db.Boolean) 
     def __init__(self, name, ability, base_xp, front_shiny, base_atk, base_hp, base_def):
         self.name = name
         self.ability = ability
