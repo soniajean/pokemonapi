@@ -1,25 +1,29 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
 
-  <h1>{{ f }}</h1>
+
 <div class="container">
   <div class="row">
-    {% for p in pokey %}
-    
-    <div class="col-6">
-      <p>{{  p.name  }}</p>
-      <h6>{{ p['spec'] }}</h6>
-      <h6>{{ p.age }}</h6>
+    <div class="card" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
 
+        {% for u in users %}
 
+        {% if u.username == current_user.username %}
+
+        {% elif u.flag %}
+        <li class="list-group-item"><b>{{ u.username }}</b></li>
+        <a class="btn btn-danger" href="{{ url_for('released', pokemon_id=u.id) }}">Release</a>
+
+        {% else %}
+        <li class="list-group-item"><b>{{ u.username }}</b></li>
+        <a class="btn btn-success" href="{{ url_for('catch', pokemon_id=u.id) }}">Catch</a>
+
+        {% endif %}
+        {% endfor %}
+      </ul>
     </div>
-
-
-    {% endfor %}
-    
   </div>
 </div>
-
 {% endblock %}

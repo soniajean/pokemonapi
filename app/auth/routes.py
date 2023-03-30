@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import logout_user, login_user, current_user
+from flask_login import logout_user, login_user, current_user, login_required
 from werkzeug.security import check_password_hash
 
 from .forms import SignUpForm, LoginForm
@@ -36,8 +36,8 @@ def loginPage():
             else:
                 flash('This isn\'t a user!', 'danger')
             return redirect(url_for('auth.loginPage'))
+        
     return render_template('login.html', form=form)
-
 
 @auth.route('/signUp', methods=['GET', 'POST'])
 def signUpPage():
@@ -47,7 +47,6 @@ def signUpPage():
             username = form.username.data
             email = form.email.data
             password = form.password.data
-            id = form.id.data
             if User.query.filter_by(username=username).first():
                 flash('That username already exists, please try another!', 'warning')
                 return redirect(url_for('auth.signUpPage'))
@@ -55,16 +54,15 @@ def signUpPage():
                 flash('that email has been used previously, try again', 'warning')
                 return redirect(url_for('auth.signUpPage'))
 
-            user = User(username, email, password, id)            
+            user = User(username, email, password)            
             user.saveUser()
 
-
-            flash(f'Welcome to INSTURBlog {user.username}', 'success')
+            flash(f'Welcome to Pokemon Game {user.username}', 'success')
             return redirect(url_for('auth.loginPage'))
     return render_template('signUp.html', form=form)
+
 
 @auth.route('/logout')
 def logOut():
     logout_user()
     return redirect(url_for('homePage'))
-
