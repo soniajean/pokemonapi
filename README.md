@@ -17,3 +17,4 @@ Inside of the blueprint folder for "authentication" (assuming the name is "authe
 - 1 .env file: to add your DATABASE_URI
 
 
+"# pokebattle" 
